@@ -60,7 +60,7 @@ def query_database():
     body = {
         "filter": {
             "property": "Status",
-            "select": {"equals": "Published"},
+            "select": {"equals": "Completed"},
         }
     }
 
@@ -183,6 +183,14 @@ def extract_properties(page):
     category_prop = props.get("Category", {}).get("select")
     category = category_prop["name"] if category_prop else "Uncategorized"
 
+    # Subcategory
+    subcategory_prop = props.get("Subcategory", {}).get("select")
+    subcategory = subcategory_prop["name"] if subcategory_prop else None
+
+    # Language (optional, Programming 에서만 의미 있음)
+    language_prop = props.get("Language", {}).get("select")
+    language = language_prop["name"] if language_prop else None
+
     # Tags
     tags_prop = props.get("Tags", {}).get("multi_select", [])
     tags = [t.get("name", "") for t in tags_prop] if tags_prop else []
@@ -194,52 +202,83 @@ def extract_properties(page):
         if rich:
             summary = rich[0].get("plain_text", "")
 
+    # Created (Notion 속성)
+    created = None
+    if "Created" in props and "created_time" in props["Created"]:
+        created = props["Created"]["created_time"]
+
+    # Sync_Path (Formula)
+    sync_path = None
+    if "Sync_Path" in props and "formula" in props["Sync_Path"]:
+        sync_path = props["Sync_Path"]["formula"].get("string")
+
     # Last edited time (페이지 최종 수정 시간)
     last_edited = page.get("last_edited_time", "")
 
     return {
         "title": title,
         "category": category,
+        "subcategory": subcategory,
+        "language": language,
         "tags": tags,
         "summary": summary,
+        "created": created,
+        "sync_path": sync_path,
         "last_edited": last_edited,
     }
 
 
+
 def save_markdown(page, markdown_body: str):
-    """한 개의 Notion 페이지를 notes/<category>/<title>.md 로 저장."""
+    """한 개의 Notion 페이지를 notes/<Sync_Path> 로 저장."""
     meta = extract_properties(page)
 
     title = meta["title"]
     category = meta["category"]
+    subcategory = meta["subcategory"]
+    language = meta["language"]
     tags = meta["tags"]
     last_edited = meta["last_edited"]
     summary = meta["summary"]
+    created = meta["created"]
+    sync_path = meta["sync_path"]
 
-    # 폴더/파일 이름 슬러그화
-    category_slug = slugify(category)
-    title_slug = slugify(title)
+    # Sync_Path가 Notion에서 정상적으로 계산되지 않은 경우를 대비한 안전장치
+    if not sync_path:
+        print(f"⚠ Sync_Path is missing for page '{title}'. Falling back to simple path.")
+        # 기존 방식으로라도 저장 (최악의 경우)
+        category_slug = slugify(category)
+        title_slug = slugify(title)
+        sync_path = f"{category_slug}/{title_slug}.md"
 
-    category_folder = OUTPUT_DIR / category_slug
-    category_folder.mkdir(parents=True, exist_ok=True)
+    # notes/ + Sync_Path
+    filepath = OUTPUT_DIR / sync_path
 
-    filepath = category_folder / f"{title_slug}.md"
+    # 중간 디렉토리들 생성
+    filepath.parent.mkdir(parents=True, exist_ok=True)
 
-    frontmatter = f"""---
-title: "{title}"
-category: "{category}"
-tags: {tags}
-last_updated: "{last_edited}"
-summary: "{summary}"
----
-
-"""
+    # Front matter 구성
+    frontmatter = "---\n"
+    frontmatter += f'title: "{title}"\n'
+    frontmatter += f'category: "{category}"\n'
+    if subcategory:
+        frontmatter += f'subcategory: "{subcategory}"\n'
+    if language:
+        frontmatter += f'language: "{language}"\n'
+    if created:
+        frontmatter += f'created: "{created}"\n'
+    frontmatter += f'last_updated: "{last_edited}"\n'
+    frontmatter += f"tags: {tags}\n"
+    if summary:
+        frontmatter += f'summary: "{summary}"\n'
+    frontmatter += "---\n\n"
 
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(frontmatter)
         f.write(markdown_body)
 
     print(f"✅ Saved: {filepath}")
+
 
 
 def main():
