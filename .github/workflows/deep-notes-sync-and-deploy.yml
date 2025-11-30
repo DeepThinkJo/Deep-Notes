@@ -1,0 +1,54 @@
+name: Sync Notion and Deploy Deep Notes
+
+on:
+  # 필요하면 수동으로도 돌릴 수 있게
+  workflow_dispatch:
+  # 일정 주기로 Notion → GitHub Pages 자동 동기화
+  schedule:
+    # 10분마다 실행 (UTC 기준)
+    - cron: "*/10 * * * *"
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+      NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          pip install mkdocs-material pyyaml requests
+
+      - name: Sync notes from Notion
+        run: |
+          python sync_notion.py
+
+      - name: Generate navigation
+        run: |
+          python generate_nav.py
+
+      - name: Commit changes (if any)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Auto-sync from Notion and update nav"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+
+      - name: Deploy MkDocs to GitHub Pages
+        run: |
+          mkdocs gh-deploy --force
