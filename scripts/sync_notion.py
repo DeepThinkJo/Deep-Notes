@@ -116,8 +116,11 @@ def convert_math(md_text: str) -> str:
     """
     Convert math syntax for MkDocs + MathJax:
     - Protect fenced code blocks ```...```
-    - Convert block math: $$ ... $$  ->  \\[ ... \\]
-    - Convert inline math: $ ... $   ->  \\( ... \\)
+    - Convert block math:
+        $$ ... $$
+      (한 줄, 여러 줄 모두) ->  \\[ ... \\]
+    - Convert inline math:
+        $ ... $ -> \\( ... \\)
     """
 
     # 1) 코드 블록 보호
@@ -134,16 +137,19 @@ def convert_math(md_text: str) -> str:
         temp_text = temp_text.replace(original, placeholder, 1)
 
     # 2) 블록 수식 변환: $$ ... $$  ->  \[ ... \]
-    block_math_pattern = r"\$\$(.+?)\$\$"
-    temp_text = re.sub(
-        block_math_pattern,
-        r"\\[\1\\]",
-        temp_text,
-        flags=re.DOTALL,
-    )
+    #    - 한 줄: $$a_0 + ... + a_nx^n \in P^n$$
+    #    - 여러 줄:
+    #        $$
+    #        ...
+    #        $$
+    block_math_pattern = r"\$\$([\s\S]*?)\$\$"
+    def _block_repl(m):
+        inner = m.group(1).strip()
+        return f"\\[{inner}\\]"
+    temp_text = re.sub(block_math_pattern, _block_repl, temp_text)
 
     # 3) 인라인 수식 변환: $ ... $  ->  \( ... \)
-    #    $$는 이미 처리되었으므로 단일 $만 남아 있음
+    #    이미 $$...$$는 위에서 처리되었으므로 단일 $만 남아 있음
     inline_math_pattern = r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)"
     temp_text = re.sub(inline_math_pattern, r"\\(\1\\)", temp_text)
 
@@ -152,6 +158,7 @@ def convert_math(md_text: str) -> str:
         temp_text = temp_text.replace(placeholder, original)
 
     return temp_text
+
 
 
 def extract_properties(page):
