@@ -13,7 +13,7 @@ BASE_URL = "https://api.notion.com/v1"
 # ✅ Git repo 루트에 바로 저장
 #    예: Mathematics/Linear_Algebra/introduction_to_linear_algebra.md
 #    (기존: notes/Mathematics/Linear_Algebra/...)
-OUTPUT_DIR = Path(".")
+OUTPUT_DIR = Path("notes")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
