@@ -112,6 +112,44 @@ def blocks_to_markdown(blocks):
     return "\n".join(md).strip() + "\n"
 
 
+def convert_inline_math(md_text: str) -> str:
+    """
+    Convert inline math from $...$ to \\(...\\) while:
+    - keeping $$...$$ block math as-is
+    - not touching fenced code blocks ```...```
+    """
+    # 1) 보호할 블록들: 코드 블록, 블록 수식($$...$$)
+    code_block_pattern = r"```.*?```"
+    block_math_pattern = r"\$\$(.+?)\$\$"
+
+    placeholders = []
+    temp_text = md_text
+
+    def _extract_and_replace(pattern, prefix, text):
+        matches = list(re.finditer(pattern, text, flags=re.DOTALL))
+        for _ in matches:
+            original = _[0]
+            placeholder = f"__{prefix}_BLOCK_{len(placeholders)}__"
+            placeholders.append((placeholder, original))
+            text = text.replace(original, placeholder, 1)
+        return text
+
+    # 코드 블록 보호
+    temp_text = _extract_and_replace(code_block_pattern, "CODE", temp_text)
+    # 블록 수식 보호
+    temp_text = _extract_and_replace(block_math_pattern, "MATH", temp_text)
+
+    # 2) 인라인 수식 변환: $...$ → \(...\)
+    inline_math_pattern = r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)"
+    temp_text = re.sub(inline_math_pattern, r"\\(\1\\)", temp_text)
+
+    # 3) 플레이스홀더 복원
+    for placeholder, original in placeholders:
+        temp_text = temp_text.replace(placeholder, original)
+
+    return temp_text
+
+
 def extract_properties(page):
     props = page.get("properties", {})
 
@@ -200,6 +238,8 @@ def main():
     for page in pages:
         blocks = get_page_blocks(page["id"])
         markdown_body = blocks_to_markdown(blocks)
+        # 🔥 인라인 수식 자동 변환: $...$ → \(...\)
+        markdown_body = convert_inline_math(markdown_body)
         save_markdown(page, markdown_body)
 
     print("Sync completed.")
