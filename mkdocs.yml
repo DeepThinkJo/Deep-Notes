@@ -25,8 +25,8 @@ nav:
     - Linear_Algebra:
       - Introduction to Linear Algebra: Mathematics/Linear_Algebra/introduction_to_linear_algebra.md
       - Chapter 1:
-        - Vector Spaces: Mathematics/Linear_Algebra/chapter_1_vector_spaces.md
-        - Vector Spaces and Subspaces: Mathematics/Linear_Algebra/chapter_1/sec_1_vector_spaces_and_subspaces.md
+        - 1 Vector Spaces: Mathematics/Linear_Algebra/chapter_1_vector_spaces.md
+        - 1.1 Vector Spaces and Subspaces: Mathematics/Linear_Algebra/chapter_1/sec_1_vector_spaces_and_subspaces.md
   - Test:
     - Test:
       - Test Sync Note: Test/Test/test_sync_note.md

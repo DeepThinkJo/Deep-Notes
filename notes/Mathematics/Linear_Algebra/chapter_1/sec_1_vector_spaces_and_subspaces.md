@@ -5,6 +5,8 @@ subcategory: "Linear_Algebra"
 created: "2025-11-30T05:50:00.000Z"
 last_updated: "2025-11-30T06:24:00.000Z"
 tags: []
+chapter: 1
+section: 1
 ---
 ## 1. Overview
 
