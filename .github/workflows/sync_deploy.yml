@@ -2,6 +2,9 @@ name: Sync Notion and Deploy Deep Notes
 
 on:
   workflow_dispatch:      # 수동 실행 버튼
+  schedule:
+    # 10분마다 실행 (UTC 기준)
+    - cron: "*/5 * * * *"
   push:
     paths:
       - "notes/**"
