@@ -10,7 +10,10 @@ DATABASE_ID = os.getenv("NOTION_DATABASE_ID")
 NOTION_VERSION = "2022-06-28"
 BASE_URL = "https://api.notion.com/v1"
 
-OUTPUT_DIR = Path("notes")
+# ✅ Git repo 루트에 바로 저장
+#    예: Mathematics/Linear_Algebra/introduction_to_linear_algebra.md
+#    (기존: notes/Mathematics/Linear_Algebra/...)
+OUTPUT_DIR = Path(".")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -72,7 +75,10 @@ def get_page_blocks(page_id: str):
             break
 
         next_cursor = data.get("next_cursor")
-        url = f"{BASE_URL}/blocks/{page_id}/children?page_size=100&start_cursor={next_cursor}"
+        url = (
+            f"{BASE_URL}/blocks/{page_id}/children"
+            f"?page_size=100&start_cursor={next_cursor}"
+        )
 
     return blocks
 
@@ -114,7 +120,7 @@ def blocks_to_markdown(blocks):
 
 def convert_math(md_text: str) -> str:
     """
-    Convert math syntax for MkDocs + MathJax:
+    Convert math syntax for Markdown + MathJax:
     - Protect fenced code blocks ```...```
     - Convert block math:
         $$ ... $$
@@ -137,19 +143,15 @@ def convert_math(md_text: str) -> str:
         temp_text = temp_text.replace(original, placeholder, 1)
 
     # 2) 블록 수식 변환: $$ ... $$  ->  \[ ... \]
-    #    - 한 줄: $$a_0 + ... + a_nx^n \in P^n$$
-    #    - 여러 줄:
-    #        $$
-    #        ...
-    #        $$
     block_math_pattern = r"\$\$([\s\S]*?)\$\$"
+
     def _block_repl(m):
         inner = m.group(1).strip()
         return f"\\[{inner}\\]"
+
     temp_text = re.sub(block_math_pattern, _block_repl, temp_text)
 
     # 3) 인라인 수식 변환: $ ... $  ->  \( ... \)
-    #    이미 $$...$$는 위에서 처리되었으므로 단일 $만 남아 있음
     inline_math_pattern = r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)"
     temp_text = re.sub(inline_math_pattern, r"\\(\1\\)", temp_text)
 
@@ -158,7 +160,6 @@ def convert_math(md_text: str) -> str:
         temp_text = temp_text.replace(placeholder, original)
 
     return temp_text
-
 
 
 def extract_properties(page):
@@ -213,7 +214,14 @@ def save_markdown(page, markdown_body: str):
     if not sync_path:
         raise ValueError(f"Sync_Path is missing for page '{meta['title']}'")
 
-    filepath = OUTPUT_DIR / sync_path
+    # ✅ Sync_Path는 예를 들어 "Mathematics/Linear_Algebra/intro.md" 형태라고 가정.
+    #   혹시 앞에 "notes/"가 붙어 있으면 제거.
+    clean_path = sync_path.lstrip("/")
+
+    if clean_path.startswith("notes/"):
+        clean_path = clean_path[len("notes/") :]
+
+    filepath = OUTPUT_DIR / clean_path
     filepath.parent.mkdir(parents=True, exist_ok=True)
 
     fm = ["---"]
@@ -249,7 +257,6 @@ def main():
     for page in pages:
         blocks = get_page_blocks(page["id"])
         markdown_body = blocks_to_markdown(blocks)
-        # 🔥 수식 변환: 코드 블록 보호 + 블록/인라인 수식 변환
         markdown_body = convert_math(markdown_body)
         save_markdown(page, markdown_body)
 
