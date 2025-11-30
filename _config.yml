@@ -1,0 +1,51 @@
+# ==========================
+# Deep Notes — Jekyll Config
+# ==========================
+
+# ---- Basic site info ----
+title: "Deep Notes"
+description: "Mathematics, Computer Science, and AI study notes by DeepThinkJo"
+
+# If this is a *user site* like:  https://username.github.io
+#   → leave both as empty string "" or set only url.
+# If this is a *project site* like: https://username.github.io/Deep-Notes
+#   → set baseurl: "/Deep-Notes"  (repo name 앞에 / 붙여서)
+url: ""          # e.g. "https://username.github.io"
+baseurl: ""      # e.g. "/Deep-Notes" for project pages
+
+# ---- Markdown & Math settings ----
+markdown: kramdown
+
+kramdown:
+  input: GFM            # GitHub Flavored Markdown
+  math_engine: mathjax  # 수식은 MathJax로 처리
+  syntax_highlighter: rouge
+
+# ---- Files & folders that Jekyll should process/include ----
+# (기본적으로는 알아서 잘 처리하지만, 명시해두면 안전)
+include:
+  - _layouts
+  - _includes
+  - assets
+  - notes
+
+# ---- Collections / Posts (원하면 나중에 확장) ----
+# 지금은 블로그 포스트 기능 안 쓰면 생략해도 되지만
+# 나중에 "학습 노트 모음"을 포스트처럼 쓰고 싶으면 여기 확장 가능.
+#collections:
+#  notes:
+#    output: true
+#    permalink: /notes/:path/
+
+# ---- Permalinks (URL 스타일) ----
+# 단순한 URL 구조를 원하면 아래처럼 사용:
+permalink: /:path/
+
+# ---- Theme (선택 사항) ----
+# 직접 _layouts/default.html 을 만들어서 쓰고 있으니
+# 굳이 GitHub 기본 테마를 쓸 필요는 없음.
+# 나중에 원하면 remote_theme를 추가할 수 있음.
+# remote_theme: jekyll/minima
+
+# ---- Syntax highlighting theme (code blocks) ----
+highlighter: rouge
