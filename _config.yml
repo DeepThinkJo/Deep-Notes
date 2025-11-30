@@ -1,0 +1,33 @@
+# ==========================
+# Deep Notes — Jekyll Config
+# ==========================
+
+# ---- 기본 사이트 정보 ----
+title: "Deep Notes"
+description: "Mathematics, Computer Science, and AI study notes"
+
+# GitHub Pages 주소 설정
+# - 사용자 페이지 (https://username.github.io) 로 쓰면:
+#     url: "https://username.github.io"
+#     baseurl: ""
+# - 프로젝트 페이지 (https://username.github.io/Deep-Notes) 로 쓰면:
+#     url: "https://username.github.io"
+#     baseurl: "/Deep-Notes"
+#
+# 일단 지금은 비워둬도 동작은 한다. 나중에 정확한 주소 알면 채워 넣어도 됨.
+url: ""
+baseurl: ""
+
+# ---- 마크다운 & 수식 설정 ----
+markdown: kramdown
+
+kramdown:
+  input: GFM            # GitHub Flavored Markdown
+  math_engine: mathjax  # 수식은 MathJax로 렌더링
+  syntax_highlighter: rouge
+
+# ---- 퍼머링크(페이지 URL 형식) ----
+permalink: /:path/
+
+# ---- 하이라이터 설정 (코드 블록) ----
+highlighter: rouge
