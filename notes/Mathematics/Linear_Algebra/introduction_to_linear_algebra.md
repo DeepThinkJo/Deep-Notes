@@ -3,7 +3,7 @@ title: "Introduction to Linear Algebra"
 category: "Mathematics"
 subcategory: "Linear_Algebra"
 created: "2025-11-30T05:57:00.000Z"
-last_updated: "2025-11-30T08:47:00.000Z"
+last_updated: "2025-11-30T09:16:00.000Z"
 tags: []
 ---
 ## Introduction to Linear Algebra
