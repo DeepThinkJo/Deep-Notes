@@ -1,0 +1,1624 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Concise textbook-style notes on Mathematics, Computer Science, and Artificial Intelligence.">
+      
+      
+      
+        <link rel="canonical" href="https://deepthinkjo.github.io/Deep_Notes/Mathematics/Linear_Algebra/introduction_to_linear_algebra.html">
+      
+      
+        <link rel="prev" href="../../Computer_Science/Python/chapter_1/sec_3_values_variables_and_types.html">
+      
+      
+        <link rel="next" href="chapter_1_vector_spaces.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Introduction to Linear Algebra - Deep Notes – DeepThinkJo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction-to-linear-algebra" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Deep Notes – DeepThinkJo" class="md-header__button md-logo" aria-label="Deep Notes – DeepThinkJo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deep Notes – DeepThinkJo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introduction to Linear Algebra
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Deep Notes – DeepThinkJo" class="md-nav__button md-logo" aria-label="Deep Notes – DeepThinkJo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deep Notes – DeepThinkJo
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deep Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer_Science
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer_Science
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_1_1_1" id="__nav_1_1_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chapter 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer_Science/Python/chapter_1_python_basics.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Python Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer_Science/Python/chapter_1/sec_1_introduction_to_programming.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introduction to Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer_Science/Python/chapter_1/sec_2_introduction_to_python.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 Introduction to Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer_Science/Python/chapter_1/sec_3_values_variables_and_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Values, Variables, and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_2_1" id="__nav_1_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear_Algebra
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linear_Algebra
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to Linear Algebra
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="introduction_to_linear_algebra.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to Linear Algebra
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-linear-algebra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to Linear Algebra
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-linear-algebra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What is Linear Algebra?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What is Linear Algebra?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-tools-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Tools (Objects)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-strategies-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Strategies (Methods)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-is-linear-algebra-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why Is Linear Algebra Important?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-linear-algebra-is-used-in-ai-ml-dl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How Linear Algebra Is Used in AI / ML / DL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How Linear Algebra Is Used in AI / ML / DL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Linear Regression
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principal-component-analysis-pca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Principal Component Analysis (PCA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#neural-networks-mlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Neural Networks (MLP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convolutional-neural-networks-cnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Convolutional Neural Networks (CNN)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformers-self-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Transformers / Self-Attention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-how-this-note-series-is-structured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. How This Note Series Is Structured
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. How This Note Series Is Structured">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-begin-with-abstract-vector-spaces-then-introduce-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (1) Begin with abstract vector spaces, then introduce matrices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-begin-with-rnmathbbrnrn-then-generalize-to-abstract-vector-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (2) Begin with Rn\mathbb{R}^nRn, then generalize to abstract vector spaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reasons:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-of-this-note-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flow of This Note Series:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Notation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Notation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields &amp; Spaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subspaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inner-products-norms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inner Products &amp; Norms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Transformations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_2_1_2" id="__nav_1_2_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chapter 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chapter_1_vector_spaces.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Vector Spaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="chapter_1/sec_1_vector_spaces_and_subspaces.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Vector Spaces and Subspaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-linear-algebra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to Linear Algebra
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-linear-algebra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What is Linear Algebra?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What is Linear Algebra?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-tools-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Tools (Objects)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-strategies-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Strategies (Methods)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-is-linear-algebra-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why Is Linear Algebra Important?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-linear-algebra-is-used-in-ai-ml-dl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How Linear Algebra Is Used in AI / ML / DL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How Linear Algebra Is Used in AI / ML / DL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Linear Regression
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principal-component-analysis-pca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Principal Component Analysis (PCA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#neural-networks-mlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Neural Networks (MLP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convolutional-neural-networks-cnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Convolutional Neural Networks (CNN)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformers-self-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Transformers / Self-Attention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ● Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-how-this-note-series-is-structured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. How This Note Series Is Structured
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. How This Note Series Is Structured">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-begin-with-abstract-vector-spaces-then-introduce-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (1) Begin with abstract vector spaces, then introduce matrices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-begin-with-rnmathbbrnrn-then-generalize-to-abstract-vector-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (2) Begin with Rn\mathbb{R}^nRn, then generalize to abstract vector spaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reasons:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-of-this-note-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flow of This Note Series:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Notation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Notation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields &amp; Spaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subspaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inner-products-norms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inner Products &amp; Norms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Transformations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Introduction to Linear Algebra</h1>
+
+<h2 id="introduction-to-linear-algebra">Introduction to Linear Algebra<a class="headerlink" href="#introduction-to-linear-algebra" title="Permanent link">&para;</a></h2>
+<h2 id="1-what-is-linear-algebra">1. What is Linear Algebra?<a class="headerlink" href="#1-what-is-linear-algebra" title="Permanent link">&para;</a></h2>
+<p>Linear algebra is the mathematical framework that provides tools and strategies for solving real-world engineering problems that exhibit linearity.</p>
+<h3 id="core-tools-objects">Core Tools (Objects)<a class="headerlink" href="#core-tools-objects" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Vectors</li>
+<li>Linear Transformations</li>
+<li>Matrices</li>
+</ul>
+<h3 id="core-strategies-methods">Core Strategies (Methods)<a class="headerlink" href="#core-strategies-methods" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Linear Systems</li>
+<li>Eigenvalues and Eigenvectors</li>
+<li>Determinants</li>
+<li>Diagonalization</li>
+<li>Norms and Inner Products</li>
+<li>Orthogonality</li>
+<li>Projections and Least Squares
+In short, linear algebra allows us to model, analyze, and solve linear structures that appear across engineering and science.</li>
+</ul>
+<h2 id="2-why-is-linear-algebra-important">2. Why Is Linear Algebra Important?<a class="headerlink" href="#2-why-is-linear-algebra-important" title="Permanent link">&para;</a></h2>
+<p>Engineering problems, once mathematically modeled, typically fall into one of two categories:</p>
+<ol>
+<li>Problems that are inherently linear</li>
+<li>
+<p>Nonlinear problems that can be approximated or transformed into linear ones
+Studying linear algebra equips an engineer with the ability to:</p>
+</li>
+<li>
+<p>Determine whether a problem exhibits linearity</p>
+</li>
+<li>Apply linearization techniques to nonlinear problems</li>
+<li>Use linear structures to analyze stability, solvability, and behavior</li>
+<li>Employ matrix and vector tools to compute solutions efficiently
+Linear algebra is therefore a universal language for engineering problem solving.</li>
+</ol>
+<p>It is foundational in fields such as control engineering, structural analysis, optimization, circuits, signal processing, and more.</p>
+<h2 id="3-how-linear-algebra-is-used-in-ai-ml-dl">3. How Linear Algebra Is Used in AI / ML / DL<a class="headerlink" href="#3-how-linear-algebra-is-used-in-ai-ml-dl" title="Permanent link">&para;</a></h2>
+<p>Modern AI systems rely heavily on linear operations, vector spaces, and matrix factorizations.</p>
+<p>Below are representative examples:</p>
+<h3 id="linear-regression">● Linear Regression<a class="headerlink" href="#linear-regression" title="Permanent link">&para;</a></h3>
+<p>y^=Xβ\hat{y} = X\beta</p>
+<div class="arithmatex">\[y\]</div>
+<p>y^=Xβ</p>
+<p>Solution:</p>
+<p>β=(XTX)−1XTy\beta = (X^TX)^{-1}X^Ty</p>
+<p>β=(XTX)−1XTy</p>
+<p>Key concepts: column space, rank, invertibility</p>
+<h3 id="principal-component-analysis-pca">● Principal Component Analysis (PCA)<a class="headerlink" href="#principal-component-analysis-pca" title="Permanent link">&para;</a></h3>
+<p>Σv=λv\Sigma v = \lambda v</p>
+<p>Σv=λv</p>
+<ul>
+<li>The principal components correspond to eigenvectors of the covariance matrix</li>
+<li>Based on: eigenvalues, orthogonality, spectral decomposition</li>
+</ul>
+<h3 id="neural-networks-mlp">● Neural Networks (MLP)<a class="headerlink" href="#neural-networks-mlp" title="Permanent link">&para;</a></h3>
+<p>A single layer computes</p>
+<p>y=Wx+by = Wx + b</p>
+<p>y=Wx+b</p>
+<p>→ A pure linear transformation</p>
+<p>Neural networks stack sequences of linear and nonlinear transformations.</p>
+<p>Key concepts: matrix multiplication, norms, Jacobians, Hessians</p>
+<h3 id="convolutional-neural-networks-cnn">● Convolutional Neural Networks (CNN)<a class="headerlink" href="#convolutional-neural-networks-cnn" title="Permanent link">&para;</a></h3>
+<p>Convolution is a linear operation, representable by Toeplitz matrices.</p>
+<h3 id="transformers-self-attention">● Transformers / Self-Attention<a class="headerlink" href="#transformers-self-attention" title="Permanent link">&para;</a></h3>
+<p>Attention(Q,K,V)=softmax(QKTd)V\text{Attention}(Q,K,V)
+  = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V</p>
+<p>Attention(Q,K,V)=softmax(d</p>
+<p>QKT)V</p>
+<p>This mechanism relies on inner products and matrix multiplication.</p>
+<h3 id="optimization">● Optimization<a class="headerlink" href="#optimization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Gradient Descent uses local linear approximations</li>
+<li>Newton’s Method uses the inverse of the Hessian matrix</li>
+<li>Quadratic forms and positive-definite matrices arise naturally<blockquote>
+<p>Most ML/DL algorithms are sequences of linear operations interwoven with nonlinearities.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="4-how-this-note-series-is-structured">4. How This Note Series Is Structured<a class="headerlink" href="#4-how-this-note-series-is-structured" title="Permanent link">&para;</a></h2>
+<p>There are two common ways linear algebra textbooks organize their material:</p>
+<h3 id="1-begin-with-abstract-vector-spaces-then-introduce-matrices">(1) Begin with abstract vector spaces, then introduce matrices<a class="headerlink" href="#1-begin-with-abstract-vector-spaces-then-introduce-matrices" title="Permanent link">&para;</a></h3>
+<h3 id="2-begin-with-rnmathbbrnrn-then-generalize-to-abstract-vector-spaces">(2) Begin with Rn\mathbb{R}^nRn, then generalize to abstract vector spaces<a class="headerlink" href="#2-begin-with-rnmathbbrnrn-then-generalize-to-abstract-vector-spaces" title="Permanent link">&para;</a></h3>
+<p>This series follows Approach (1).</p>
+<h3 id="reasons">Reasons:<a class="headerlink" href="#reasons" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Avoids restricting vectors to numerical lists</li>
+<li>Includes function spaces, polynomial spaces, signal spaces, etc.</li>
+<li>Matches how AI engineers think about embedding spaces and feature spaces</li>
+<li>A more general perspective offers broader modeling capabilities</li>
+</ul>
+<h3 id="flow-of-this-note-series">Flow of This Note Series:<a class="headerlink" href="#flow-of-this-note-series" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Vector Spaces</li>
+<li>Linear Transformations</li>
+<li>Matrix Representations</li>
+<li>Applications in Engineering and AI</li>
+</ol>
+<h2 id="5-notation">5. Notation<a class="headerlink" href="#5-notation" title="Permanent link">&para;</a></h2>
+<p>This series follows the notation used in the author’s linear algebra notes.</p>
+<h3 id="fields-spaces">Fields &amp; Spaces<a class="headerlink" href="#fields-spaces" title="Permanent link">&para;</a></h3>
+<ul>
+<li>R\mathbb{R}R: real numbers</li>
+<li>C\mathbb{C}C: complex numbers</li>
+<li>Bold lowercase: vectors (x, v)</li>
+<li>Bold uppercase: matrices (A, B)</li>
+<li>eie_iei: standard basis vectors</li>
+</ul>
+<h3 id="subspaces">Subspaces<a class="headerlink" href="#subspaces" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Span(S)\text{Span}(S)Span(S): span</li>
+<li>Ker(T)\text{Ker}(T)Ker(T): kernel</li>
+<li>Range(T)\text{Range}(T)Range(T): image</li>
+<li>Nul(A)={x∣Ax=0}\text{Nul}(A) = {x \mid Ax = 0}Nul(A)={x∣Ax=0}</li>
+<li>Col(A)\text{Col}(A)Col(A): column space</li>
+<li>Row(A)\text{Row}(A)Row(A): row space</li>
+</ul>
+<h3 id="operators">Operators<a class="headerlink" href="#operators" title="Permanent link">&para;</a></h3>
+<ul>
+<li>det⁡(A)\det(A)det(A): determinant</li>
+<li>tr⁡(A)\operatorname{tr}(A)tr(A): trace</li>
+<li>rank⁡(A)\operatorname{rank}(A)rank(A): rank</li>
+<li>ATA^TAT: transpose</li>
+<li>A*A^*A*: conjugate transpose</li>
+</ul>
+<h3 id="inner-products-norms">Inner Products &amp; Norms<a class="headerlink" href="#inner-products-norms" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⟨x,y⟩\langle x, y \rangle⟨x,y⟩: inner product</li>
+<li>∥x∥|x|∥x∥: Euclidean norm</li>
+<li>∥A∥F|A|_F∥A∥F: Frobenius norm</li>
+</ul>
+<h3 id="linear-transformations">Linear Transformations<a class="headerlink" href="#linear-transformations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>T:V→WT : V \to WT:V→W</li>
+<li>[T]B[T]_B[T]B: matrix representation w.r.t. basis BBB</li>
+<li>λi\lambda_iλi: eigenvalues</li>
+<li>viv_ivi: eigenvectors</li>
+<li>SVD: A=UΣVTA = U\Sigma V^TA=UΣVT</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
